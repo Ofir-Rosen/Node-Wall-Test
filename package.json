@@ -1,0 +1,16 @@
+{
+  "name": "node_project",
+  "version": "1.0.0",
+  "description": "sockets example",
+  "main": "p5.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "ofir rosen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}

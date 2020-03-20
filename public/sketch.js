@@ -23,7 +23,7 @@ function setup() {
   d.child(slider);
   background(0);
   smooth();
-  socket= io.connect('http://localhost:3000');
+  socket= io.connect('https://wall-test-001.herokuapp.com/');
   //if this socket recieves a message, run newDrawing
   socket.on('mouse', newDrawing);
   nulled = 1;

@@ -1,1 +1,1 @@
-web: public/index.html
+web: server.js

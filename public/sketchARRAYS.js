@@ -33,7 +33,7 @@ function setup() {
   background(0);
   smooth();
   //socket= io.connect('192.168.1.16:3000');
-  socket = io.connect("http://localhost:3000");
+  socket = io.connect("https://wall-test-001.herokuapp.com/");
   lastDat[0] = null;
   //on connect Event
   socket.on('connect', () => {

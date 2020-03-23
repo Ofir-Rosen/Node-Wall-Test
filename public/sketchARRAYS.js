@@ -31,7 +31,7 @@ var c;
 //to space out the boxes at the bottom
 var numColors = 6;
 //array of potential colours, set up in constant names here, but can be hex codes too!
-var colors = ["red", "green", "blue", "yellow","cyan", "magenta"];
+var colors = ["#ffffff", "green", "blue", "yellow","cyan", "magenta"];
 
 //the slider on the left side,
 let slider;
@@ -187,7 +187,7 @@ function draw() {
   //and gives us a clean varriable to start the positions of our next box
   for(var i = 0; i < width; i+=width/numColors){
 
-                                // V shitty way of doing this that I did before
+                                // V shitty way of doing this that I did before - made it cleaner below.
                                     // if (index == 1) fill(255,0,0);
                                     // if (index == 2) fill(0,255,0);
                                     // if (index == 3) fill(0,0,255);

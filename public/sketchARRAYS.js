@@ -46,6 +46,8 @@ let clients = [];
 //incoming ID
 let lastDat= [];
 
+//foreground variable
+let foreground;
 
 
 
@@ -58,7 +60,7 @@ function setup() {
 
 //  FOR TESTING - smaller canvas
 //  createCanvas(800,600);
-
+  foreground = loadImage('assets/foreground.png');
   // set the first client to some garbage, just so when we call it it doesn't come up as undefined
   clients[0] = '0';
 
@@ -173,10 +175,12 @@ function mouseReleased(){
 
 // function() draw runs every frame, we're usually running at 60fps, for this runs 60 times  a second.
 function draw() {
-  //draw a black rectangle behind the slider, so that we don't get random shit behind it.
-  fill(0);
+  //draw a white rectangle behind the slider, so that we don't get random shit behind it.
+  fill(255);
   noStroke();
   rect(0,0,70,300);
+
+  image(foreground, 0,0, width,height);
 
   //draw the coloured boxes at the bottom.
   let index = 0;
@@ -205,6 +209,7 @@ function draw() {
     //the valuse of the width of the canvas divided by the number of colours pixels wide
     //and 50px tall.
     rect(i, height-50, width/numColors,50);
+
   }
 }
 

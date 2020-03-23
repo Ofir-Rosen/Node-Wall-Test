@@ -26,10 +26,14 @@ let id;
 let clients = [];
 
 
+//foreground image variable
+let foreground;
+
 function setup() {
   // put setup code here
   //createCanvas(1920,1080);
   createCanvas(800,600);
+
   clients[0] = '0';
   let d = createDiv();
   d.style('transform: rotate(' + 90 + 'deg);');

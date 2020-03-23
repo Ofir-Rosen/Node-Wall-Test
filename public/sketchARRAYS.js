@@ -84,6 +84,8 @@ function setup() {
   background(255);
   smooth();
   //FOR TESTING - socket= io.connect('192.168.1.16:3000');
+
+  //set the origin pint (0,0), of images to be the center.
   imageMode(CENTER);
   //connect the socket to the server
   socket = io.connect("https://wall-test-001.herokuapp.com/");
@@ -179,7 +181,7 @@ function draw() {
   fill(255);
   noStroke();
   rect(0,0,70,300);
-
+  // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
   image(foreground, width/2,height/2, width,height);
 
   //draw the coloured boxes at the bottom.

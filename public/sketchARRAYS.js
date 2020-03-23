@@ -84,7 +84,7 @@ function setup() {
   background(255);
   smooth();
   //FOR TESTING - socket= io.connect('192.168.1.16:3000');
-
+  imageMode(CENTER);
   //connect the socket to the server
   socket = io.connect("https://wall-test-001.herokuapp.com/");
   //on connection - grab this socket's unique ID and store it
@@ -180,7 +180,7 @@ function draw() {
   noStroke();
   rect(0,0,70,300);
 
-  image(foreground, 0,0, width,height);
+  image(foreground, width/2,height/2, width,height);
 
   //draw the coloured boxes at the bottom.
   let index = 0;

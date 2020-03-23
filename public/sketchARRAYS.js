@@ -31,7 +31,7 @@ var c;
 //to space out the boxes at the bottom
 var numColors = 6;
 //array of potential colours, set up in constant names here, but can be hex codes too!
-var colors = ["red", "green", "blue", "yellow","cyan", "magenta"];
+var colors = ["#FF0000", "green", "blue", "yellow","cyan", "magenta"];
 
 //the slider on the left side,
 let slider;

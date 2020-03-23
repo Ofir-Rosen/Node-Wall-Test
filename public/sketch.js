@@ -1,14 +1,25 @@
 var socket;
 var x;
 var y;
+
+//
 var lastX;
 var lastY;
+
+//stored data of the last X and Y position coming from the data
 var lastDataX;
 var lastDataY;
+
+// state of whether or not this is a new line
 var nulled;
+//sotred last value of the new line state above
 var lastNull;
 var c;
+
+//number of colour options
 var numColors = 6;
+
+//array of potential colours, set up in constant names here, but can be hex codes too!
 var colors = ["red", "green", "blue", "yellow","cyan", "magenta"];
 let slider;
 let id;

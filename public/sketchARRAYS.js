@@ -81,7 +81,7 @@ function setup() {
   slider = createSlider(3,50,12);
   slider.style('width', '200px');
   d.child(slider);
-  background(0);
+  background(255);
   smooth();
   //FOR TESTING - socket= io.connect('192.168.1.16:3000');
 

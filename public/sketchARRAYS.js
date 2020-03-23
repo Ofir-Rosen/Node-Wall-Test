@@ -30,7 +30,7 @@ var c;
 //number of available colours, this is basically just for mathing out how
 //to space out the boxes at the bottom
 var numColors = 6;
-//array of potential colours, set up in constant names here, but can be hex codes too!
+//array of potential colours, must be constant names, or hex codes. RGB wont work because of how we're transferring the data.
 var colors = ["#FF0000", "green", "blue", "yellow","cyan", "magenta"];
 
 //the slider on the left side,

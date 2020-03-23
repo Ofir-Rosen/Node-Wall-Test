@@ -3,8 +3,8 @@ var x;
 var y;
 var lastX;
 var lastY;
-var lastDataX;
-var lastDataY;
+var lastDataX =[];
+var lastDataY =[];
 var nulled;
 var lastNull;
 var c;
@@ -13,6 +13,8 @@ var colors = ["red", "green", "blue", "yellow","cyan", "magenta"];
 let slider;
 let id;
 let clients = [];
+let lastDat= [];
+
 
 
 function setup() {
@@ -20,6 +22,8 @@ function setup() {
   //createCanvas(1920,1080);
   createCanvas(800,600);
   clients[0] = '0';
+  lastDataX[0] = 0;
+  lastDataY[0] = 0;
   let d = createDiv();
   d.style('transform: rotate(' + 90 + 'deg);');
   d.position(-100,80);
@@ -28,8 +32,9 @@ function setup() {
   d.child(slider);
   background(0);
   smooth();
-  socket= io.connect('http://localhost:3000');
-
+  //socket= io.connect('192.168.1.16:3000');
+  socket = io.connect("http://localhost:3000");
+  lastDat[0] = null;
   //on connect Event
   socket.on('connect', () => {
       //get the id from socket
@@ -124,21 +129,28 @@ function newDrawing(data){
   }
     if(ind >= clients.length){
        clients.push(data.id);
+       lastDat.push(data);
        ind = 0;
    }
     console.log(clients);
-  stroke(data.col);
-  strokeWeight(data.weight);
-  if (data.n == 1) {
-    lastDataX = null;
-    lastDataY = null;
+    console.log(lastDat);
+  for(var i = 1; i <clients.length; i++){
+    if(data.id == clients[i]){
+    lastDat[i] = data;
+    stroke(lastDat[i].col);
+    strokeWeight(lastDat[i].weight);
+    if (lastDat[i].n == 1) {
+      lastDataX[i] = null;
+      lastDataY[i] = null;
+    }
+    if (lastDataX[i] == null){
+      lastDataX[i] = lastDat[i].x1;
+      lastDataY[i] = lastDat[i].y1;
+    }
+    line(lastDat[i].x1,lastDat[i].y1, lastDataX[i], lastDataY[i]);
+    point(data.x1, lastDat[i].y1);
+    lastDataX[i] = lastDat[i].x1;
+    lastDataY[i] = lastDat[i].y1;
   }
-  if (lastDataX == null){
-    lastDataX = data.x1;
-    lastDataY = data.y1;
-  }
-  line(data.x1,data.y1, lastDataX, lastDataY);
-  point(data.x1, data.y1);
-  lastDataX = data.x1;
-  lastDataY = data.y1;
+}
 }

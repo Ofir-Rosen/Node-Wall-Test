@@ -1,7 +1,7 @@
 var express = require ('express');
 //require express, store it in app, and then use app to listen on port 3000
 var app = express();
-//var server = app.listen(5000);
+//var server = app.listen(3000);
 var server = app.listen(process.env.PORT || 3000)
 //host the files in the public folder on this server on port 3000
 app.use(express.static('public'));
@@ -23,13 +23,16 @@ var io = socket(server);
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket){
-  console.log('new connection ' + socket.id);
+     const sessionID = socket.id;
+      console.log('new connection ' + sessionID);
+  // const sessionID = socket.id;
+
   //if theres a message called MOUSE, trigger function mouseMsg.
   socket.on('mouse', mouseMsg);
 
   function mouseMsg(data){
     console.log(data);
     //when a mouse message comes in, broadcast that exact same message.
-    socket.broadcast.emit('mouse', data);
+    socket.broadcast.emit('mouse', data, sessionID);
   }
 }

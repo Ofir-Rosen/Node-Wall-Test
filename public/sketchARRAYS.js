@@ -216,36 +216,36 @@ function draw() {
   rect(0,0,70,300);
   // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
   image(foreground, width/2,height/2, width,height);
-
-  //draw the coloured boxes at the bottom.
-  let index = 0;
-  //this is a slightly weirder for loop, basically it sets i to 0, and adds
-  //the width of the canvas divided by the number of colours every frame
-  //finally, it loops until i is bigger than the width of the screen.
-  //this means that this runs as many times as the number of colours
-  //and gives us a clean varriable to start the positions of our next box
-  for(var i = 0; i < width; i+=width/numColors){
-
-                                // V shitty way of doing this that I did before
-                                    // if (index == 1) fill(255,0,0);
-                                    // if (index == 2) fill(0,255,0);
-                                    // if (index == 3) fill(0,0,255);
-                                    // if (index == 4) fill(255,255,0);
-                                    // if (index == 5) fill(0,255,255);
-                                    // if (index == 6) fill(255,0,255);
-
-    //every loop, the variable I called index (above this loop), rises by 1, so every loop, set
-    //the fill of our boxes, to the colours we set above, and then raise it by 1.
-    fill(colors[index]);
-    index++;
-    stroke(255);
-    strokeWeight(3);
-    //draw a box, at x position i, y of the height-50px,
-    //the valuse of the width of the canvas divided by the number of colours pixels wide
-    //and 50px tall.
-    rect(i, height-50, width/numColors,50);
-
-  }
+//DEPRICATED CODE//
+      // //draw the coloured boxes at the bottom.
+      // let index = 0;
+      // //this is a slightly weirder for loop, basically it sets i to 0, and adds
+      // //the width of the canvas divided by the number of colours every frame
+      // //finally, it loops until i is bigger than the width of the screen.
+      // //this means that this runs as many times as the number of colours
+      // //and gives us a clean varriable to start the positions of our next box
+      // for(var i = 0; i < width; i+=width/numColors){
+      //
+      //                               // V shitty way of doing this that I did before
+      //                                   // if (index == 1) fill(255,0,0);
+      //                                   // if (index == 2) fill(0,255,0);
+      //                                   // if (index == 3) fill(0,0,255);
+      //                                   // if (index == 4) fill(255,255,0);
+      //                                   // if (index == 5) fill(0,255,255);
+      //                                   // if (index == 6) fill(255,0,255);
+      //
+      //   //every loop, the variable I called index (above this loop), rises by 1, so every loop, set
+      //   //the fill of our boxes, to the colours we set above, and then raise it by 1.
+      //   fill(colors[index]);
+      //   index++;
+      //   stroke(255);
+      //   strokeWeight(3);
+      //   //draw a box, at x position i, y of the height-50px,
+      //   //the valuse of the width of the canvas divided by the number of colours pixels wide
+      //   //and 50px tall.
+      //   rect(i, height-50, width/numColors,50);
+      //
+      // }
 }
 
 function newDrawing(data){

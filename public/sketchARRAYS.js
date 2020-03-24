@@ -31,7 +31,7 @@ var c;
 //to space out the boxes at the bottom
 var numColors = 6;
 //array of potential colours, must be constant names, or hex codes. RGB wont work because of how we're transferring the data.
-var colors = ["#FF0000", "green", "blue", "yellow","cyan", "magenta"];
+var colors = ["#FF0000", "#00FF00", "#0000FF", "FFFF00","00FFFF", "FF00FF"];
 
 //the slider on the left side,
 let slider;
@@ -53,10 +53,18 @@ let foreground;
 //GUI STUFF
 //create an object to hold out gui's slider
 let brushStroke;
+let gui_col;
+let colorFolder;
 
 //this function is the object
 function BrushStroke(){
   this.thickness = 12
+  this.aFF0000 = function(){c = colors[0];foldUp();}
+  this.a00FF00 = function(){c = colors[1];foldUp();}
+  this.a0000FF = function(){c = colors[2];foldUp();}
+  this.aFFFF00 = function(){c = colors[3];foldUp();}
+  this.a00FFFF = function(){c = colors[4];foldUp();}
+  this.aFF00FF = function(){c = colors[5];foldUp();}
 }
 
 //setup() code runs ONCE as the code is launched
@@ -117,6 +125,17 @@ function setup() {
   brushStroke = new BrushStroke();
   let gui_col = new dat.GUI();
   gui_col.add(brushStroke, 'thickness', 5,30);
+  colorFolder = gui_col.addFolder('colour');
+  colorFolder.add(brushStroke, 'aFF0000');
+  colorFolder.add(brushStroke,'a00FF00');
+  colorFolder.add(brushStroke,'a0000FF');
+  colorFolder.add(brushStroke,'aFFFF00');
+  colorFolder.add(brushStroke,'a00FFFF');
+  colorFolder.add(brushStroke,'aFF00FF');
+}
+
+function foldUp(){
+  colorFolder.close();
 }
 
 //any time a touch action is started - this could be as you tap your screen, or as you click the mouse. Runs once per click/touch

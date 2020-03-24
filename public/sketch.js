@@ -20,7 +20,7 @@ var c;
 var numColors = 6;
 
 //array of potential colours, set up in constant names here, but can be hex codes too!
-var colors = ["red", "green", "blue", "yellow","cyan", "magenta"];
+var colors = ["red", "00FF00", "blue", "yellow","cyan", "magenta"];
 let slider;
 let id;
 let clients = [];
@@ -32,13 +32,27 @@ let foreground;
 //gui.dat STUFF
 let brushStroke;
 
+let canvas;
+
+let drop;
+
+
 function BrushStroke(){
   this.brushWeight = 12
+  this.colour = '#ffae23'; // CSS string
+  this.aFF0000 = function(){c = colors[0];foldUp();}
+  this.a00FF00 = function(){c = colors[1];foldUp();}
+  this.blue = function(){c = colors[2];foldUp();}
+  this.yellow = function(){c = colors[3];foldUp();}
+  this.cyan = function(){c = colors[4];foldUp();}
+  this.magenta = function(){c = colors[5];foldUp();}
 }
 
+let gui_col;
+let colorFolder;
 function setup() {
   // put setup code here
-  //createCanvas(1920,1080);
+ //createCanvas(1920,1080);
   createCanvas(800,600);
 
   clients[0] = '0';
@@ -61,11 +75,23 @@ function setup() {
   c = "black";
 
   // GUI stuff
+  gui_col = new dat.GUI();
   brushStroke = new BrushStroke();
-  let gui_col = new dat.GUI();
-  gui_col.add(brushStroke, 'brushWeight', 5,30);
-}
 
+  gui_col.add(brushStroke, 'brushWeight', 5,30);
+  //gui_col.addColor(brushStroke,'colour');
+  colorFolder = gui_col.addFolder('colour');
+  colorFolder.add(brushStroke, 'aFF0000');
+  colorFolder.add(brushStroke,'a00FF00');
+  colorFolder.add(brushStroke,'blue');
+  colorFolder.add(brushStroke,'yellow');
+  colorFolder.add(brushStroke,'cyan');
+  colorFolder.add(brushStroke,'magenta');
+
+}
+function foldUp(){
+  colorFolder.close();
+}
 function touchStarted(){
   nulled = 1;
   var index;
@@ -121,18 +147,18 @@ function draw() {
   rect(0,0,70,300);
   let index = 0;
   // put drawing code here
-  for(var i = 0; i < width; i+=width/numColors){
-    index++;
-    if (index == 1) fill(255,0,0);
-    if (index == 2) fill(0,255,0);
-    if (index == 3) fill(0,0,255);
-    if (index == 4) fill(255,255,0);
-    if (index == 5) fill(0,255,255);
-    if (index == 6) fill(255,0,255);
-    stroke(255);
-    strokeWeight(3);
-    rect(i, height-50, width/numColors,50);
-  }
+  // for(var i = 0; i < width; i+=width/numColors){
+  //   index++;
+  //   if (index == 1) fill(255,0,0);
+  //   if (index == 2) fill(0,255,0);
+  //   if (index == 3) fill(0,0,255);
+  //   if (index == 4) fill(255,255,0);
+  //   if (index == 5) fill(0,255,255);
+  //   if (index == 6) fill(255,0,255);
+  //   stroke(255);
+  //   strokeWeight(3);
+  //   rect(i, height-50, width/numColors,50);
+  // }
 }
 function newDrawing(data){
   //console.log(data.id);

@@ -1,8 +1,8 @@
 var express = require ('express');
 //require express, store it in app, and then use app to listen on port 3000
 var app = express();
-//var server = app.listen(3000);
-var server = app.listen(process.env.PORT || 3000)
+var server = app.listen(3000);
+//var server = app.listen(process.env.PORT || 3000)
 //host the files in the public folder on this server on port 3000
 app.use(express.static('public'));
 //static means the files are not changing
@@ -17,7 +17,6 @@ var socket = require('socket.io');
 //this will keep track of in/outputs
 var io = socket(server);
 //call the socket function, (the library) using the server on ::3000
-
 
 //javascript works based off of events, sockets work the same way, messages, connection, and disconnect are status messages it sends on its own.
 io.sockets.on('connection', newConnection);

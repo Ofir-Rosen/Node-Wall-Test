@@ -31,7 +31,7 @@ var c;
 //to space out the boxes at the bottom
 var numColors = 6;
 //array of potential colours, must be constant names, or hex codes. RGB wont work because of how we're transferring the data.
-var colors = ["#FF0000", "#00FF00", "#0000FF", "FFFF00","00FFFF", "FF00FF"];
+var colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00","#00FFFF", "#FF00FF"];
 
 //the slider on the left side,
 let slider;

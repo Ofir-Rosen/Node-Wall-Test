@@ -50,6 +50,14 @@ let lastDat= [];
 let foreground;
 
 
+//GUI STUFF
+//create an object to hold out gui's slider
+let brushStroke;
+
+//this function is the object
+function BrushStroke(){
+  this.thickness = 12
+}
 
 //setup() code runs ONCE as the code is launched
 function setup() {
@@ -74,13 +82,14 @@ function setup() {
 
   //this is just the code to set up our slider.
   //a Div (createDiv) is an HTML object for layouts, we just need this to rotate the slider
-  let d = createDiv();
-  d.style('transform: rotate(' + 90 + 'deg);');
-  d.position(-100,80);
-  //create a slider, that goes from vlaues 3, to 50, and defaults to 12
-  slider = createSlider(3,50,12);
-  slider.style('width', '200px');
-  d.child(slider);
+//OLD CODE
+                  // let d = createDiv();
+                  // d.style('transform: rotate(' + 90 + 'deg);');
+                  // d.position(-100,80);
+                  // //create a slider, that goes from vlaues 3, to 50, and defaults to 12
+                  // slider = createSlider(3,50,12);
+                  // slider.style('width', '200px');
+                  // d.child(slider);
   background(255);
   smooth();
   //FOR TESTING - socket= io.connect('192.168.1.16:3000');
@@ -103,6 +112,11 @@ function setup() {
   nulled = 1;
   lastNull = 0;
   c = "black";
+
+  // GUI stuff
+  brushStroke = new BrushStroke();
+  let gui_col = new dat.GUI();
+  gui_col.add(brushStroke, 'thickness', 5,30);
 }
 
 //any time a touch action is started - this could be as you tap your screen, or as you click the mouse. Runs once per click/touch
@@ -139,7 +153,7 @@ function mouseDragged(){
 //then make sure the sketch doesn't try to fill in the space between out lines. (noFill())
   stroke(c);
   noFill();
-  strokeWeight(slider.value());
+  strokeWeight(brushStroke.thickness);
   //THIS IS THE DRAWING PART!
   //Create a line between our current X & Y positions, and out Stored X & Y. also draw a pint at the end of the line, this just cleans it up.
   line(x,y,lastX,lastY);
@@ -148,7 +162,7 @@ function mouseDragged(){
   lastX = x;
   lastY = y;
   //debugging stuff.
-  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + slider.value() + ' , ' + id);
+  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + brushStroke.thickness + ' , ' + id);
 
 
 //create object with the data we're sending in it (x, y, new line state, colour, thickness, and this instance's ID)
@@ -157,7 +171,7 @@ function mouseDragged(){
     y1: y,
     n: nulled,
     col: c.toString(),
-    weight: slider.value(),
+    weight: brushStroke.thickness,
     id: id
   }
 

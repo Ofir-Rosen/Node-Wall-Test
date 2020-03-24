@@ -29,18 +29,19 @@ let clients = [];
 //foreground image variable
 let foreground;
 
+//gui.dat STUFF
+let brushStroke;
+
+function BrushStroke(){
+  this.brushWeight = 12
+}
+
 function setup() {
   // put setup code here
   //createCanvas(1920,1080);
   createCanvas(800,600);
 
   clients[0] = '0';
-  let d = createDiv();
-  d.style('transform: rotate(' + 90 + 'deg);');
-  d.position(-100,80);
-  slider = createSlider(3,50,12);
-  slider.style('width', '200px');
-  d.child(slider);
   background(0);
   smooth();
   socket= io.connect('http://localhost:3000');
@@ -58,6 +59,11 @@ function setup() {
   nulled = 1;
   lastNull = 0;
   c = "black";
+
+  // GUI stuff
+  brushStroke = new BrushStroke();
+  let gui_col = new dat.GUI();
+  gui_col.add(brushStroke, 'brushWeight', 5,30);
 }
 
 function touchStarted(){
@@ -80,13 +86,13 @@ function mouseDragged(){
   //noStroke();
 
   stroke(c);
-  strokeWeight(slider.value());
+  strokeWeight(brushStroke.brushWeight);
   line(x,y,lastX,lastY);
   point(x,y);
   noFill();
   lastX = x;
   lastY = y;
-  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + slider.value() + ' , ' + id);
+  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + brushStroke.brushWeight + ' , ' + id);
 
 
 //create object with the data in it
@@ -95,7 +101,7 @@ function mouseDragged(){
     y1: y,
     n: nulled,
     col: c.toString(),
-    weight: slider.value(),
+    weight: brushStroke.brushWeight,
     id: id
   }
 //emit the data packet

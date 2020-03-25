@@ -311,9 +311,11 @@ function newDrawing(data){
   }
 }
 }
-
+var enum;
 function clearDrawing(data){
     fill(255);
     rect(0,0,width,height);
     image(foreground, width/2,height/2, width,height);
+    saveCanvas('drawing'+ enum , '.jpeg');
+    enum++;
 }

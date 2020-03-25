@@ -9,11 +9,12 @@
 .dg.ac {
     position: fixed;
     top: 540px;
-    left: 70px;
+    left: 65px;
     height: 0;
     z-index: 0;
     transform: scale(1.5);
     background-color: rgba(0,0,0,0.2);
+    transform: rotate(90deg);
 }
 
 .dg:not(.ac) .main {

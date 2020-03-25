@@ -65,6 +65,7 @@ function BrushStroke(){
   this.Thickness = 12
   this.Clear = function(){clearDrawing(); socket.emit('clear','data');}
   this.Save = function(){saveDrawing();}
+  this.AutoSave = false;
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
   this.a0000FF = function(){c = colors[2];foldUp();}
@@ -142,6 +143,7 @@ function setup() {
   colorFolder.add(brushStroke,'a00FFFF');
   colorFolder.add(brushStroke,'aFF00FF');
 
+  gui_col.add(brushStroke, 'AutoSave');
   gui_col.add(brushStroke, 'Clear');
   gui_col.add(brushStroke, 'Save');
 
@@ -323,6 +325,7 @@ function saveDrawing(){
 }
 
 function clearDrawing(data){
+    if (brushStroke.AutoSave) {saveDrawing();}
     fill(255);
     noStroke();
     rect(0,0,width,height);

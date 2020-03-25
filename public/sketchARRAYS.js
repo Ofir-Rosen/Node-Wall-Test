@@ -151,7 +151,7 @@ function setup() {
 
   sliderfg = document.getElementsByClassName('slider-fg')[0];
   trayObj = document.getElementsByClassName('.dg.ac')[0];
-  if(trayObj!=null)  trayObj.style.top = height/2;
+  trayObj.style.top = height/2;
 
 }
 

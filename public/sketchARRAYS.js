@@ -59,6 +59,8 @@ let colorFolder;
 //SLider object! So we can change the color styling based off of our brush colour
 let sliderfg;
 
+let trayObj;
+
 
 //this function is the object
 function BrushStroke(){
@@ -148,6 +150,8 @@ function setup() {
   gui_col.add(brushStroke, 'Save');
 
   sliderfg = document.getElementsByClassName('slider-fg')[0];
+  trayObj = document.getElementsByClassName('.dg.ac')[0];
+  if(trayObj!=null)  trayObj.style.top = height/2;
 
 }
 

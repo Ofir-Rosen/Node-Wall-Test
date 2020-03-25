@@ -221,8 +221,8 @@ function draw() {
   fill(255);
   noStroke();
   rect(0,0,70,300);
-  //set the colour of the slider to the colour of our brush
-  sliderfg.style.backgroundColor = c;
+  //set the colour of the slider to the colour of our brush - make sure that the slider isnt a null first so we dont crash. (theres a better way to do this)
+    if(sliderfg!=null) sliderfg.style.backgroundColor = c;
   // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
   image(foreground, width/2,height/2, width,height);
 //DEPRICATED CODE//

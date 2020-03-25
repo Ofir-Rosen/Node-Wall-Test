@@ -38,6 +38,8 @@ let drop;
 
 let sliderfg;
 
+var guiDom;
+
 
 function BrushStroke(){
   this.brushWeight = 12
@@ -78,6 +80,10 @@ function setup() {
 
   // GUI stuff
   gui_col = new dat.GUI();
+//  guiDom.appendChild(gui_col.domElement);
+//  guiDom
+
+
   brushStroke = new BrushStroke();
 
   gui_col.add(brushStroke, 'brushWeight', 5,30);
@@ -93,7 +99,6 @@ function setup() {
 
   //new code
   sliderfg = document.getElementsByClassName('slider-fg')[0];
-
 }
 function foldUp(){
   colorFolder.close();
@@ -150,7 +155,8 @@ function mouseReleased(){
 function draw() {
   fill(0);
   noStroke();
-  sliderfg.style.backgroundColor = c;
+  //sliderfg = document.getElementsByClassName('slider-fg')[0];
+  if(sliderfg!=null) sliderfg.style.backgroundColor = c;
   rect(0,0,70,300);
   let index = 0;
   // put drawing code here

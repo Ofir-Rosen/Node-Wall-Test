@@ -8,22 +8,25 @@
 
 .dg.ac {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 60px;
+    left: 70px;
     height: 0;
-    z-index: 0
+    z-index: 0;
+    transform: scale(1.5);
+    background-color: rgba(0,0,0,0.2);
 }
 
 .dg:not(.ac) .main {
-    overflow: hidden
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.2);
 }
 
 .dg.main {
     -webkit-transition: opacity .1s linear;
     -o-transition: opacity .1s linear;
     -moz-transition: opacity .1s linear;
-    transition: opacity .1s linear
+    transition: opacity .1s linear;
+    background-color:rgba(0,0,0,0.2);
 }
 
 .dg.main.taller-than-window {
@@ -33,7 +36,7 @@
 .dg.main.taller-than-window .close-button {
     opacity: 1;
     margin-top: -1px;
-    border-top: 1px solid #2c2c2c
+
 }
 
 .dg.main ul.closed .close-button {
@@ -55,7 +58,8 @@
     height: 20px;
     cursor: pointer;
     text-align: center;
-    background-color: #000
+    background-color: rgba(0,0,0,0.2);
+
 }
 
 .dg.main .close-button.close-top {
@@ -109,24 +113,28 @@
     -webkit-transition: overflow .1s linear;
     -o-transition: overflow .1s linear;
     -moz-transition: overflow .1s linear;
-    transition: overflow .1s linear
+    transition: overflow .1s linear;
+        background-color:rgba(0,0,0,0.2);
 }
 
 .dg li:not(.folder) {
     cursor: auto;
     height: 27px;
     line-height: 27px;
-    padding: 0 4px 0 5px
+    padding: 0 4px 0 5px;
+        background-color:rgba(0,0,0,0.2);
 }
 
 .dg li.folder {
     padding: 0;
-    border-left: 4px solid transparent
+    border-left: 4px solid transparent;
+        background-color:rgba(0,0,0,0.2);
 }
 
 .dg li.title {
     cursor: pointer;
-    margin-left: -4px
+    margin-left: -4px;
+      background-color:rgba(0,0,0,0.2);
 }
 
 .dg .closed li:not(.title),
@@ -134,14 +142,16 @@
 .dg .closed ul li>* {
     height: 0;
     overflow: hidden;
-    border: 0
+    border: 0;
+      background-color:rgba(0,0,0,0.2);
 }
 
 .dg .cr {
     clear: both;
     padding-left: 3px;
     height: 27px;
-    overflow: hidden
+    overflow: hidden;
+    background-color:rgba(0,0,0,0.2);
 }
 
 .dg .property-name {
@@ -151,7 +161,8 @@
     width: 40%;
     overflow: hidden;
     text-align:right
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
+    background-color:rgba(0,0,0,0.2);
 }
 
 .dg .c {
@@ -169,13 +180,13 @@
 }
 
 .dg .has-slider input[type=text] {
-    width: 30%;
+    width: 15%;
     margin-left: 0
 }
 
 .dg .slider {
     float: left;
-    width: 66%;
+    width: 81%;
     margin-left: -5px;
     margin-right: 0;
     height: 19px;
@@ -272,10 +283,11 @@
 }
 
 .dg {
-    color: #ff00ff;
-    font: 11px 'Lucida Grande', sans-serif;
-    text-shadow: 0 -1px 0 #111
+  opacity:1;
+    color: #ffffff;
 
+    font: 15px 'Lucida Grande', sans-serif;
+    opacity: 1 !important;
 }
 
 .dg.main::-webkit-scrollbar {
@@ -294,7 +306,8 @@
 }
 
 .dg li:not(.folder) {
-    background: #1a1a1a;
+    background-color:rgba(0,0,0,0.2);
+
     border-bottom: 1px solid #2c2c2c
 }
 
@@ -335,14 +348,17 @@
 }
 
 .dg li.folder {
-    border-bottom: 0
+    border-bottom: 0;
+    background-color:rgba(0,0,0,0.2);
 }
 
 .dg li.title {
     padding-left: 16px;
-    background: #000 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+    background-color:rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2) url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
     cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+
+
 }
 
 .dg .closed li.title {
@@ -358,8 +374,7 @@
 }
 
 .dg .cr.function {
-    border-left: 0px solid #e61d5f
-
+    border-left: 0px solid #e61d5f;
 }
 
 .dg .cr.number {

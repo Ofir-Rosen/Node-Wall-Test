@@ -39,7 +39,7 @@ function newConnection(socket){
     socket.broadcast.emit('mouse', data, sessionID);
   }
 
-  function clearAll(){
-      socket.broadcast.emit('mouse', 1);
+  function clearAll(data){
+      socket.broadcast.emit('mouse', data);
   }
 }

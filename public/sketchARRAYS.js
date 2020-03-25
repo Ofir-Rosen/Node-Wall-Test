@@ -63,7 +63,7 @@ let sliderfg;
 //this function is the object
 function BrushStroke(){
   this.Thickness = 12
-  this.Clear = function(){fill(255);rect(0,0,width,height);image(foreground, width/2,height/2, width,height);}
+  this.Clear = function(){clearDrawing(); socket.emit('clear',1);}
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
   this.a0000FF = function(){c = colors[2];foldUp();}
@@ -121,6 +121,8 @@ function setup() {
   //if this socket recieves a message called 'mouse', run the function
   //in this document called newDrawing
   socket.on('mouse', newDrawing);
+  //same deal but for clear commands
+  socket.on('clear', clearDrawing);
   //set some defaults ¯\_(ツ)_/¯
   nulled = 1;
   lastNull = 0;
@@ -202,6 +204,7 @@ function mouseDragged(){
     weight: brushStroke.Thickness,
     id: id
   }
+
 
 //send the data to the server, and name it 'mouse'.
   socket.emit('mouse',data);
@@ -307,4 +310,10 @@ function newDrawing(data){
     lastDataY[i] = lastDat[i].y1;
   }
 }
+}
+
+function clearDrawing(){
+
+    fill(255);rect(0,0,width,height);image(foreground, width/2,height/2, width,height);
+
 }

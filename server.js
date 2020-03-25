@@ -30,10 +30,16 @@ function newConnection(socket){
   //if theres a message called MOUSE, trigger function mouseMsg.
   socket.on('mouse', mouseMsg);
 
+  socket.on('clear', clearAll);
+
   function mouseMsg(data){
     //Log the incoming Data DEBUGGING STUFF
     console.log(data);
     //when a mouse message comes in, broadcast that exact same message to ALL other connections.
     socket.broadcast.emit('mouse', data, sessionID);
+  }
+
+  function clearAll(){
+      socket.broadcast.emit('mouse', 1);
   }
 }

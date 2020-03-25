@@ -313,7 +313,7 @@ function newDrawing(data){
 }
 let enumerator = 0;
 function clearDrawing(data){
-  saveCanvas('drawing-'+ enumerator + '', 'jpg');
+    saveCanvas("drawing-"+ enumerator + "", "jpg");
     fill(255);
     noStroke();
     rect(0,0,width,height);

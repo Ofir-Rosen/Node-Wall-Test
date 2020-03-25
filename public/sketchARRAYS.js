@@ -62,7 +62,8 @@ let sliderfg;
 
 //this function is the object
 function BrushStroke(){
-  this.thickness = 12
+  this.Thickness = 12
+  this.Clear = function(){fill(255);rect(0,0,width,height);image(foreground, width/2,height/2, width,height);}
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
   this.a0000FF = function(){c = colors[2];foldUp();}
@@ -123,12 +124,13 @@ function setup() {
   //set some defaults ¯\_(ツ)_/¯
   nulled = 1;
   lastNull = 0;
-  c = "white";
+  c = colors[0];
 
   // GUI stuff
   brushStroke = new BrushStroke();
   let gui_col = new dat.GUI();
-  gui_col.add(brushStroke, 'thickness', 5,30);
+  gui_col.add(brushStroke, 'Thickness', 5,30);
+  gui_col.add(brushStroke, 'Clear');
   colorFolder = gui_col.addFolder('colour');
   colorFolder.add(brushStroke, 'aFF0000');
   colorFolder.add(brushStroke,'a00FF00');
@@ -179,7 +181,7 @@ function mouseDragged(){
 //then make sure the sketch doesn't try to fill in the space between out lines. (noFill())
   stroke(c);
   noFill();
-  strokeWeight(brushStroke.thickness);
+  strokeWeight(brushStroke.Thickness);
   //THIS IS THE DRAWING PART!
   //Create a line between our current X & Y positions, and out Stored X & Y. also draw a pint at the end of the line, this just cleans it up.
   line(x,y,lastX,lastY);
@@ -188,7 +190,7 @@ function mouseDragged(){
   lastX = x;
   lastY = y;
   //debugging stuff.
-  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + brushStroke.thickness + ' , ' + id);
+  console.log('SENDING: ' + x + ' , ' + y + " , " + nulled + ' , ' + c.toString() + ' , ' + brushStroke.Thickness + ' , ' + id);
 
 
 //create object with the data we're sending in it (x, y, new line state, colour, thickness, and this instance's ID)
@@ -197,7 +199,7 @@ function mouseDragged(){
     y1: y,
     n: nulled,
     col: c.toString(),
-    weight: brushStroke.thickness,
+    weight: brushStroke.Thickness,
     id: id
   }
 

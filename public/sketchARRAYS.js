@@ -311,9 +311,9 @@ function newDrawing(data){
   }
 }
 }
-var enumerator;
+let enumerator = 0;
 function clearDrawing(data){
-  saveCanvas('drawing'+ enumerator , '.jpeg');
+  saveCanvas('drawing-'+ enumerator , 'jpg');
     fill(255);
     noStroke();
     rect(0,0,width,height);

@@ -1206,7 +1206,7 @@ var NumberControllerSlider = function (_NumberController) {
     function onMouseDrag(e) {
       e.preventDefault();
       var bgRect = _this.__background.getBoundingClientRect();
-      _this.setValue(map(e.clientX, bgRect.left, bgRect.right, _this.__min, _this.__max));
+      _this.setValue(map(e.clientY, bgRect.top, bgRect.bottom, _this.__min, _this.__max));
       return false;
     }
     function onMouseUp() {

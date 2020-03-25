@@ -125,9 +125,6 @@ function setup() {
   lastNull = 0;
   c = "white";
 
-//set our slider ofject to the first object with the class "slider-fg"
-  sliderfg = document.getElementsByClassName('slider-fg')[0];
-
   // GUI stuff
   brushStroke = new BrushStroke();
   let gui_col = new dat.GUI();
@@ -139,6 +136,9 @@ function setup() {
   colorFolder.add(brushStroke,'aFFFF00');
   colorFolder.add(brushStroke,'a00FFFF');
   colorFolder.add(brushStroke,'aFF00FF');
+
+  sliderfg = document.getElementsByClassName('slider-fg')[0];
+
 }
 
 function foldUp(){

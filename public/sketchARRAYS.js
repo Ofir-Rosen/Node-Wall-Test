@@ -64,6 +64,7 @@ let sliderfg;
 function BrushStroke(){
   this.Thickness = 12
   this.Clear = function(){clearDrawing(); socket.emit('clear','data');}
+  this.Save = saveDrawing();
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
   this.a0000FF = function(){c = colors[2];foldUp();}
@@ -132,14 +133,17 @@ function setup() {
   brushStroke = new BrushStroke();
   let gui_col = new dat.GUI();
   gui_col.add(brushStroke, 'Thickness', 5,30);
-  gui_col.add(brushStroke, 'Clear');
-  colorFolder = gui_col.addFolder('colour');
+
+  colorFolder = gui_col.addFolder('Colour');
   colorFolder.add(brushStroke, 'aFF0000');
   colorFolder.add(brushStroke,'a00FF00');
   colorFolder.add(brushStroke,'a0000FF');
   colorFolder.add(brushStroke,'aFFFF00');
   colorFolder.add(brushStroke,'a00FFFF');
   colorFolder.add(brushStroke,'aFF00FF');
+
+  gui_col.add(brushStroke, 'Clear');
+  gui_col.add(brushStroke, 'Save');
 
   sliderfg = document.getElementsByClassName('slider-fg')[0];
 
@@ -313,11 +317,15 @@ function newDrawing(data){
 }
 
 let enumerator = 0;
+
+function saveDrawing(){
+  saveCanvas('drawing-'+ enumerator + '.jpg');
+  enumerator++;
+}
+
 function clearDrawing(data){
-    saveCanvas('drawing-'+ enumerator + '.jpg');
     fill(255);
     noStroke();
     rect(0,0,width,height);
     image(foreground, width/2,height/2, width,height);
-    enumerator++;
 }

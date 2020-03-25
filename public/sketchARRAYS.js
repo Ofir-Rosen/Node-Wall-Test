@@ -63,7 +63,7 @@ let sliderfg;
 //this function is the object
 function BrushStroke(){
   this.Thickness = 12
-  this.Clear = function(){socket.emit('clear','data');}
+  this.Clear = function(){clearDrawing(); socket.emit('clear','data');}
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
   this.a0000FF = function(){c = colors[2];foldUp();}
@@ -314,7 +314,7 @@ function newDrawing(data){
 
 let enumerator = 0;
 function clearDrawing(data){
-    saveCanvas("drawing-"+ enumerator + "", "jpg");
+    saveCanvas("drawing-"+ enumerator + ".jpg");
     fill(255);
     noStroke();
     rect(0,0,width,height);

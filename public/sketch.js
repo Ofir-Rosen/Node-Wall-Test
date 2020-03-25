@@ -20,8 +20,8 @@ var c;
 var numColors = 6;
 
 //array of potential colours, set up in constant names here, but can be hex codes too!
-var colors = ["red", "00FF00", "blue", "yellow","cyan", "magenta"];
-let slider;
+var colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00","#00FFFF", "#FF00FF"];
+//let slider;
 let id;
 let clients = [];
 
@@ -36,16 +36,18 @@ let canvas;
 
 let drop;
 
+let sliderfg;
+
 
 function BrushStroke(){
   this.brushWeight = 12
   this.colour = '#ffae23'; // CSS string
   this.aFF0000 = function(){c = colors[0];foldUp();}
   this.a00FF00 = function(){c = colors[1];foldUp();}
-  this.blue = function(){c = colors[2];foldUp();}
-  this.yellow = function(){c = colors[3];foldUp();}
-  this.cyan = function(){c = colors[4];foldUp();}
-  this.magenta = function(){c = colors[5];foldUp();}
+  this.a0000FF = function(){c = colors[2];foldUp();}
+  this.aFFFF00 = function(){c = colors[3];foldUp();}
+  this.a00FFFF = function(){c = colors[4];foldUp();}
+  this.aFF00FF = function(){c = colors[5];foldUp();}
 }
 
 let gui_col;
@@ -83,10 +85,14 @@ function setup() {
   colorFolder = gui_col.addFolder('colour');
   colorFolder.add(brushStroke, 'aFF0000');
   colorFolder.add(brushStroke,'a00FF00');
-  colorFolder.add(brushStroke,'blue');
-  colorFolder.add(brushStroke,'yellow');
-  colorFolder.add(brushStroke,'cyan');
-  colorFolder.add(brushStroke,'magenta');
+  colorFolder.add(brushStroke,'a0000FF');
+  colorFolder.add(brushStroke,'aFFFF00');
+  colorFolder.add(brushStroke,'a00FFFF');
+  colorFolder.add(brushStroke,'aFF00FF');
+
+
+  //new code
+  sliderfg = document.getElementsByClassName('slider-fg')[0];
 
 }
 function foldUp(){
@@ -144,6 +150,7 @@ function mouseReleased(){
 function draw() {
   fill(0);
   noStroke();
+  sliderfg.style.backgroundColor = c;
   rect(0,0,70,300);
   let index = 0;
   // put drawing code here

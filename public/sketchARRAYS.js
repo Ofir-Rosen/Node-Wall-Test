@@ -56,6 +56,10 @@ let brushStroke;
 let gui_col;
 let colorFolder;
 
+//SLider object! So we can change the color styling based off of our brush colour
+let sliderfg;
+
+
 //this function is the object
 function BrushStroke(){
   this.thickness = 12
@@ -119,7 +123,10 @@ function setup() {
   //set some defaults ¯\_(ツ)_/¯
   nulled = 1;
   lastNull = 0;
-  c = "black";
+  c = "white";
+
+//set our slider ofject to the first object with the class "slider-fg"
+  sliderfg = document.getElementsByClassName('slider-fg')[0];
 
   // GUI stuff
   brushStroke = new BrushStroke();
@@ -214,6 +221,8 @@ function draw() {
   fill(255);
   noStroke();
   rect(0,0,70,300);
+  //set the colour of the slider to the colour of our brush
+  sliderfg.style.backgroundColor = c;
   // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
   image(foreground, width/2,height/2, width,height);
 //DEPRICATED CODE//

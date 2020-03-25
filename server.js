@@ -40,6 +40,6 @@ function newConnection(socket){
   }
 
   function clearAll(data){
-      socket.broadcast.emit('mouse', data);
+      socket.broadcast.emit('clear', data);
   }
 }

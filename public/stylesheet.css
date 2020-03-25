@@ -286,7 +286,6 @@
 .dg {
     opacity:1;
     color: #ffffff;
-    text-orientation: mixed | upright | sideways;
     font: 15px 'Lucida Grande', sans-serif;
     opacity: 1 !important;
 }

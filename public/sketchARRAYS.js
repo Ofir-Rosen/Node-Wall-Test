@@ -150,7 +150,7 @@ function setup() {
   gui_col.add(brushStroke, 'Save');
 
   sliderfg = document.getElementsByClassName('slider-fg')[0];
-  trayObj = document.getElementsByClassName('.dg.ac')[0];
+  trayObj = document.getElementsByClassName('dg ac')[0];
   trayObj.style.top = height/2;
 
 }

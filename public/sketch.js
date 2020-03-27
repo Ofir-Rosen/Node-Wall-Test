@@ -40,6 +40,10 @@ let sliderfg;
 
 var guiDom;
 
+var canvasContainer;
+
+var inputScreen;
+
 
 function BrushStroke(){
   this.brushWeight = 12
@@ -57,7 +61,7 @@ let colorFolder;
 function setup() {
   // put setup code here
  //createCanvas(1920,1080);
-  createCanvas(800,600);
+  canvasContainer = createCanvas(800,600);
 
   clients[0] = '0';
   background(0);
@@ -69,9 +73,11 @@ function setup() {
       //get the id from socket
       id = socket.id;
       console.log(id);
-
   });
   //if this socket recieves a message, run newDrawing
+  socket.emit('pushImage', id);
+  socket.on('startUp', pullImage);
+  socket.on('pushImage', sendScreen);
   socket.on('mouse', newDrawing);
 
   nulled = 1;
@@ -157,7 +163,7 @@ function draw() {
   noStroke();
   //sliderfg = document.getElementsByClassName('slider-fg')[0];
   if(sliderfg!=null) sliderfg.style.backgroundColor = c;
-  rect(0,0,70,300);
+  //rect(0,0,70,300);
   let index = 0;
   // put drawing code here
   // for(var i = 0; i < width; i+=width/numColors){
@@ -201,4 +207,32 @@ function newDrawing(data){
   point(data.x1, data.y1);
   lastDataX = data.x1;
   lastDataY = data.y1;
+}
+
+
+function sendScreen(){
+  let currentScreen = canvasContainer.get();
+  let screenArray = [];
+  //save(currentScreen);
+  currentScreen.loadPixels();
+  for(var i = 0; i < currentScreen.width*currentScreen.height; i++){
+      //for(var j = 0; j < currentScreen.height; j++){
+        screenArray[i] = currentScreen.pixels[i];
+    //}
+  }
+   console.log('sent');
+   //currentScreen.save('jjj.png');
+    socket.emit('screen', screenArray);
+}
+
+function pullImage(data){
+  imageMode(CORNER);
+  var c = createImage(width,height);
+  c.loadPixels();
+  for(var i = 0; i < c.pixels.length; i++){
+      c.pixels[i] = data[i];
+  }
+  c.updatePixels();
+  image(c,0,0,width,height);
+  console.log('recieved');
 }

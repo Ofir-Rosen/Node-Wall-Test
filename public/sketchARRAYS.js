@@ -62,6 +62,11 @@ let sliderfg;
 let trayObj;
 
 
+var canvasContainer;
+
+var inputScreen;
+
+
 //this function is the object
 function BrushStroke(){
   this.Thickness = 12
@@ -80,8 +85,8 @@ function BrushStroke(){
 function setup() {
   //createCanvas sets up our drawing space, but in general for this language + library
   //(javascript + p5.js), the canvas is what holds everything we're creating, it doesn't need to abide by HTML's weird formatting, you can just place things at coordinates.
-
-  createCanvas(1920,1080);
+//were also putting out canvas into a container, so we can read it later, and send it to any new connections.
+  canvasContainer = createCanvas(1920,1080);
 
 //  FOR TESTING - smaller canvas
 //  createCanvas(800,600);
@@ -109,7 +114,9 @@ function setup() {
                   // d.child(slider);
   background(255);
   smooth();
-  //FOR TESTING - socket= io.connect('192.168.1.16:3000');
+
+  //TESTING TIME
+  // socket= io.connect('http://localhost:3000');
 
   //set the origin pint (0,0), of images to be the center.
   imageMode(CENTER);
@@ -124,7 +131,11 @@ function setup() {
   });
   //if this socket recieves a message called 'mouse', run the function
   //in this document called newDrawing
+  socket.emit('pushImage', id);
+  socket.on('startUp', pullImage);
+  socket.on('pushImage', sendScreen);
   socket.on('mouse', newDrawing);
+
   //same deal but for clear commands
   socket.on('clear', clearDrawing);
   //set some defaults ¯\_(ツ)_/¯
@@ -136,7 +147,6 @@ function setup() {
   brushStroke = new BrushStroke();
   let gui_col = new dat.GUI();
   gui_col.add(brushStroke, 'Thickness', 5,30);
-
   colorFolder = gui_col.addFolder('Colour');
   colorFolder.add(brushStroke, 'aFF0000');
   colorFolder.add(brushStroke,'a00FF00');
@@ -144,7 +154,6 @@ function setup() {
   colorFolder.add(brushStroke,'aFFFF00');
   colorFolder.add(brushStroke,'a00FFFF');
   colorFolder.add(brushStroke,'aFF00FF');
-
   gui_col.add(brushStroke, 'AutoSave');
   gui_col.add(brushStroke, 'Clear');
   gui_col.add(brushStroke, 'Save');
@@ -232,11 +241,12 @@ function mouseReleased(){
 // function() draw runs every frame, we're usually running at 60fps, for this runs 60 times  a second.
 function draw() {
   //draw a white rectangle behind the slider, so that we don't get random shit behind it.
-  fill(255);
-  noStroke();
-  rect(0,0,70,300);
+//  fill(255);
+//  noStroke();
+//  rect(0,0,70,300);
   //set the colour of the slider to the colour of our brush - make sure that the slider isnt a null first so we dont crash. (theres a better way to do this)
     if(sliderfg!=null) sliderfg.style.backgroundColor = c;
+    imageMode(CENTER);
   // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
   image(foreground, width/2,height/2, width,height);
 //DEPRICATED CODE//
@@ -333,4 +343,26 @@ function clearDrawing(data){
     noStroke();
     rect(0,0,width,height);
     image(foreground, width/2,height/2, width,height);
+}
+
+
+function sendScreen(){
+ //  let currentScreen = canvasContainer.get();
+ //  let cs = createImage(currentScreen.width, currentScreen.height);
+ //  cs = currentScreen;
+ //  let sendDat = {
+ //    im : cs
+ //  }
+ // socket.emit('screen', sendDat);
+ // console.log('sent' + sendDat);
+}
+
+function pullImage(data){
+ //  imageMode(CORNER);
+ //  console.log(data);
+ //  //save(data.im);
+ // let cs = createImage(width,height);
+ // cs = data.im;
+ //  foreground = cs;
+ //  //save(cs);
 }

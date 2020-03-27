@@ -21,25 +21,46 @@ var io = socket(server);
 //javascript works based off of events, sockets work the same way, messages, connection, and disconnect are status messages it sends on its own.
 io.sockets.on('connection', newConnection);
 
+var sendBack;
+let captureData = [];
 
 function newConnection(socket){
      const sessionID = socket.id;
      //log the incomming connections ID, DEBUGGING STUFF
      console.log('new connection ' + sessionID);
-
+    for(var i = 0; i < captureData.length; i ++){
+     socket.emit('mouse', captureData[i]);
+   }
+     socket.on('pushImage', newCon);
+     sendBack = sessionID;
+     socket.on('screen', sendScreenBack);
   //if theres a message called MOUSE, trigger function mouseMsg.
-  socket.on('mouse', mouseMsg);
+    socket.on('mouse', mouseMsg);
 
-  socket.on('clear', clearAll);
+    socket.on('clear', clearAll);
+
+
 
   function mouseMsg(data){
     //Log the incoming Data DEBUGGING STUFF
     console.log(data);
     //when a mouse message comes in, broadcast that exact same message to ALL other connections.
     socket.broadcast.emit('mouse', data, sessionID);
+    captureData.push(data);
   }
 
   function clearAll(data){
       socket.broadcast.emit('clear', data);
+      console.log(data);
+      captureData = [];
+
+  }
+  function sendScreenBack(data){
+    socket.broadcast.emit('startUp', data);
+    console.log(data);
+  }
+  function newCon(){
+    socket.broadcast.emit('pushImage');
+    console.log('push');
   }
 }

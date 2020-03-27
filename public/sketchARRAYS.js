@@ -66,6 +66,11 @@ var canvasContainer;
 
 var inputScreen;
 
+let active = true;
+let lastActive = true;
+
+let queueNum = 0;
+
 
 //this function is the object
 function BrushStroke(){
@@ -116,12 +121,12 @@ function setup() {
   smooth();
 
   //TESTING TIME
-  // socket= io.connect('http://localhost:3000');
+   socket= io.connect('http://localhost:3000');
 
   //set the origin pint (0,0), of images to be the center.
   imageMode(CENTER);
   //connect the socket to the server
-  socket = io.connect("https://wall-test-001.herokuapp.com/");
+  //socket = io.connect("https://wall-test-001.herokuapp.com/");
   //on connection - grab this socket's unique ID and store it
   socket.on('connect', () => {
       //get the id from socket
@@ -135,7 +140,7 @@ function setup() {
   socket.on('startUp', pullImage);
   socket.on('pushImage', sendScreen);
   socket.on('mouse', newDrawing);
-
+  socket.on('active', activeState);
   //same deal but for clear commands
   socket.on('clear', clearDrawing);
   //set some defaults ¯\_(ツ)_/¯
@@ -204,8 +209,11 @@ function mouseDragged(){
   strokeWeight(brushStroke.Thickness);
   //THIS IS THE DRAWING PART!
   //Create a line between our current X & Y positions, and out Stored X & Y. also draw a pint at the end of the line, this just cleans it up.
-  line(x,y,lastX,lastY);
-  point(x,y);
+  if(active){
+    line(x,y,lastX,lastY);
+    point(x,y);
+  }
+  lastActive = active;
   //store our current X & Y for the next frame to use.
   lastX = x;
   lastY = y;
@@ -238,8 +246,13 @@ function mouseReleased(){
   nulled = 1;
 }
 
+
+let timer = 0;
+let cap = 5000;
 // function() draw runs every frame, we're usually running at 60fps, for this runs 60 times  a second.
 function draw() {
+
+
   //draw a white rectangle behind the slider, so that we don't get random shit behind it.
 //  fill(255);
 //  noStroke();
@@ -248,7 +261,7 @@ function draw() {
     if(sliderfg!=null) sliderfg.style.backgroundColor = c;
     imageMode(CENTER);
   // draw our foreground image in the middle of the canvas, and stretch it to fill the canvas.
-  image(foreground, width/2,height/2, width,height);
+
 //DEPRICATED CODE//
       // //draw the coloured boxes at the bottom.
       // let index = 0;
@@ -279,6 +292,28 @@ function draw() {
       //   rect(i, height-50, width/numColors,50);
       //
       // }
+      imageMode(CENTER);
+      image(foreground, width/2,height/2, width,height);
+      if(active){
+        if(lastActive!= active){
+
+          //background(255);
+          //socket.emit('pushImage');
+        }
+      } else {
+        if (lastActive!= active){
+          rectMode(CENTER);
+          noStroke();
+          fill(0);
+          rect(width/2, height/2, width/2,height/2);
+
+        }
+        fill(255);
+        noStroke();
+        textAlign(CENTER,CENTER);
+        textSize(60);
+        text('You are #' + queueNum + ' the queue, please wait\n for someone to disconnect',width/2,height/2);
+      }
 }
 
 function newDrawing(data){
@@ -341,7 +376,9 @@ function clearDrawing(data){
     if (brushStroke.AutoSave) {saveDrawing();}
     fill(255);
     noStroke();
+    rectMode(CORNER);
     rect(0,0,width,height);
+
     image(foreground, width/2,height/2, width,height);
 }
 
@@ -365,4 +402,9 @@ function pullImage(data){
  // cs = data.im;
  //  foreground = cs;
  //  //save(cs);
+}
+
+function activeState(data){
+  console.log(data);
+  active = data;
 }

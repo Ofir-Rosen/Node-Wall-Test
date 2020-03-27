@@ -44,6 +44,8 @@ var canvasContainer;
 
 var inputScreen;
 
+let active = true;
+
 
 function BrushStroke(){
   this.brushWeight = 12
@@ -79,6 +81,7 @@ function setup() {
   socket.on('startUp', pullImage);
   socket.on('pushImage', sendScreen);
   socket.on('mouse', newDrawing);
+  socket.on('active', activeState);
 
   nulled = 1;
   lastNull = 0;
@@ -130,8 +133,14 @@ function mouseDragged(){
 
   stroke(c);
   strokeWeight(brushStroke.brushWeight);
-  line(x,y,lastX,lastY);
-  point(x,y);
+  if(active){
+    line(x,y,lastX,lastY);
+    point(x,y);
+  } else {
+    fill(0,80);
+    noStroke();
+    rect(0,0,width,height);
+  }
   noFill();
   lastX = x;
   lastY = y;
@@ -235,4 +244,8 @@ function pullImage(data){
   c.updatePixels();
   image(c,0,0,width,height);
   console.log('recieved');
+}
+
+function activeState(data){
+  active = data;
 }

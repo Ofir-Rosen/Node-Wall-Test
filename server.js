@@ -98,11 +98,11 @@ function newConnection(socket){
       if(i < activeClientLimit){
         if(queue[i] == socket.id){
           activeData.state = true
-          activeData.place = i+1;
+          activeData.place = i-(activeClientLimit-1);
         }
       } else if (i >= activeClientLimit && queue[i] == socket.id) {
         activeData.state = false
-        activeData.place = i-1;
+        activeData.place = i-(activeClientLimit-1);
       }
     }
     socket.emit('active', activeData);

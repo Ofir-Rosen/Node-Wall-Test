@@ -24,30 +24,54 @@ io.sockets.on('connection', newConnection);
 var sendBack;
 let captureData = [];
 
+let queue = [];
+let activeClientLimit = 3;
+
+function dequeue(arr, ID){
+  for(var i = 0 ; i < arr.length ; i++){
+    if(arr[i] == ID){
+       arr.splice(i,1);
+       console.log( arr[i] + ' , ' + ID);
+     } else if (i == arr.length-1) {
+       console.log('failed');
+     }
+  }
+  return(arr);
+}
+
 function newConnection(socket){
      const sessionID = socket.id;
+     queue.push(sessionID);
+     console.log(queue);
      //log the incomming connections ID, DEBUGGING STUFF
      console.log('new connection ' + sessionID);
-    for(var i = 0; i < captureData.length; i ++){
+  for(var i = 0; i < captureData.length; i ++){
      socket.emit('mouse', captureData[i]);
    }
      socket.on('pushImage', newCon);
      sendBack = sessionID;
      socket.on('screen', sendScreenBack);
   //if theres a message called MOUSE, trigger function mouseMsg.
-    socket.on('mouse', mouseMsg);
+      socket.on('mouse', mouseMsg);
+      socket.on('clear', clearAll);
+      socket.on('disconnect', function(){queue = dequeue(queue,socket.id); console.log('disconnected 1: - ' + queue);});
 
-    socket.on('clear', clearAll);
-
-
+      socket.on('amIActive', checkActivity);
 
   function mouseMsg(data){
     //Log the incoming Data DEBUGGING STUFF
     console.log(data);
     //when a mouse message comes in, broadcast that exact same message to ALL other connections.
-    socket.broadcast.emit('mouse', data, sessionID);
-    captureData.push(data);
+
+    for(var i = 0; i < activeClientLimit; i++){
+      if(sessionID == queue[i]){
+        socket.broadcast.emit('mouse', data, sessionID);
+        captureData.push(data);
+      }
+    }
+
   }
+
 
   function clearAll(data){
       socket.broadcast.emit('clear', data);
@@ -56,11 +80,31 @@ function newConnection(socket){
 
   }
   function sendScreenBack(data){
-    socket.broadcast.emit('startUp', data);
-    console.log(data);
+    for(var i = 0; i < captureData.length; i++){
+      socket.emit('mouse', captureData[i]);
+    }
   }
   function newCon(){
     socket.broadcast.emit('pushImage');
     console.log('push');
+  }
+
+  function checkActivity(){
+    var activeData = {
+      state: null,
+      place: null
+    }
+    for(var i = 0; i < queue.length; i++){
+      if(i < activeClientLimit){
+        if(queue[i] == socket.id){
+          activeData.state = true
+          activeData.place = i+1;
+        }
+      } else if (i >= activeClientLimit && queue[i] == socket.id) {
+        activeData.state = false
+        activeData.place = i-1;
+      }
+    }
+    socket.emit('active', activeData);
   }
 }

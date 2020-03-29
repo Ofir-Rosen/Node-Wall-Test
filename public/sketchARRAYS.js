@@ -70,7 +70,8 @@ let active = true;
 let lastActive = true;
 
 let queueNum = 0;
-
+let ogScalingX;
+let ogScalingY;
 
 //this function is the object
 function BrushStroke(){
@@ -92,7 +93,8 @@ function setup() {
   //(javascript + p5.js), the canvas is what holds everything we're creating, it doesn't need to abide by HTML's weird formatting, you can just place things at coordinates.
 //were also putting out canvas into a container, so we can read it later, and send it to any new connections.
   canvasContainer = createCanvas(1920,1080);
-
+  ogScalingX = windowWidth;
+  ogScalingY = windowHeight;
 //  FOR TESTING - smaller canvas
 //  createCanvas(800,600);
   foreground = loadImage('assets/foreground.png');
@@ -121,12 +123,12 @@ function setup() {
   smooth();
 
   //TESTING TIME
-   socket= io.connect('http://localhost:3000');
+   //socket= io.connect('http://localhost:3000');
 
   //set the origin pint (0,0), of images to be the center.
   imageMode(CENTER);
   //connect the socket to the server
-  //socket = io.connect("https://wall-test-001.herokuapp.com/");
+  socket = io.connect("https://wall-test-001.herokuapp.com/");
   //on connection - grab this socket's unique ID and store it
   socket.on('connect', () => {
       //get the id from socket
@@ -165,7 +167,8 @@ function setup() {
 
   sliderfg = document.getElementsByClassName('slider-fg')[0];
 
-
+  imageMode(CENTER);
+  image(foreground, width/2,height/2, width,height);
 }
 
 function foldUp(){
@@ -213,7 +216,6 @@ function mouseDragged(){
     line(x,y,lastX,lastY);
     point(x,y);
   }
-  lastActive = active;
   //store our current X & Y for the next frame to use.
   lastX = x;
   lastY = y;
@@ -247,12 +249,18 @@ function mouseReleased(){
 }
 
 
-let timer = 0;
-let cap = 5000;
+
+let cap = 5*1000;
+let timer = -cap;
 // function() draw runs every frame, we're usually running at 60fps, for this runs 60 times  a second.
 function draw() {
-
-
+  var activeData = {
+    id: id
+  }
+  if(millis() >= timer+cap){
+    socket.emit('amIActive', activeData);
+    timer = millis();
+  }
   //draw a white rectangle behind the slider, so that we don't get random shit behind it.
 //  fill(255);
 //  noStroke();
@@ -292,28 +300,22 @@ function draw() {
       //   rect(i, height-50, width/numColors,50);
       //
       // }
-      imageMode(CENTER);
-      image(foreground, width/2,height/2, width,height);
-      if(active){
-        if(lastActive!= active){
-
-          //background(255);
-          //socket.emit('pushImage');
-        }
-      } else {
-        if (lastActive!= active){
-          rectMode(CENTER);
+        imageMode(CENTER);
+        image(foreground, width/2,height/2, width,height);
+        if(!active){
           noStroke();
-          fill(0);
-          rect(width/2, height/2, width/2,height/2);
-
+          fill(0,100);
+          push();
+          rectMode(CENTER);
+          translate(ogScalingX/2, ogScalingY/2);
+          scale(ogScalingX/width, ogScalingY/height);
+          rect(0,0,width/4,height/4,30);
+          fill(255);
+          textSize(20);
+          textAlign(CENTER,CENTER);
+          text('there are too many people active, please wait\nYou are #' + place + ' in line',0,0);
+          pop();
         }
-        fill(255);
-        noStroke();
-        textAlign(CENTER,CENTER);
-        textSize(60);
-        text('You are #' + queueNum + ' the queue, please wait\n for someone to disconnect',width/2,height/2);
-      }
 }
 
 function newDrawing(data){
@@ -403,8 +405,33 @@ function pullImage(data){
  //  foreground = cs;
  //  //save(cs);
 }
-
+var place;
 function activeState(data){
   console.log(data);
-  active = data;
+  active = data.state;
+  if(!active){
+    place = data.place;
+  }
+  if(active!=lastActive && !active){
+    // noStroke();
+    // fill(0,100);
+    // push();
+    // rectMode(CENTER);
+    // translate(windowWidth/2, windowHeight/2);
+    // scale(windowWidth/width, windowHeight/height);
+    // rect(0,0,width/4,height/4);
+    // fill(255);
+    // textSize(20);
+    // textAlign(CENTER,CENTER);
+    // text('there are too many people active, please wait\nYou are #' + data.place + ' in line',0,0);
+    // pop();
+  }
+  if(active && active!= lastActive){
+    noStroke();
+    fill(255);
+    rectMode(CORNER);
+    rect(0,0,width,height);
+    socket.emit('screen');
+  }
+  lastActive = active;
 }
